@@ -10,6 +10,7 @@ import LineChart from '@/Components/LineChart.vue';
 import PieChart from '@/Components/PieChart.vue';
 import BubbleChart from '@/Components/BubbleChart.vue';
 import MultipleFileInput from '@/Components/MultipleFileInput.vue';
+import FileInput from '@/Components/FileInput.vue';
 
 const props = defineProps(['users']);
 
@@ -130,6 +131,8 @@ onMounted(() => {
                 />
                 <h1>Multifile File Upload</h1>
                 <MultipleFileInput class="my-5" />
+                <h1>Single File Upload</h1>
+                <FileInput class="my-5" />
             </div>
         </div>
     </AuthenticatedLayout>

@@ -12,20 +12,24 @@
               :disabled="selectedFiles.length === 0 || loading">
         Upload
       </button>
-      <ul class="mt-4">
-        <li v-for="(file, index) in selectedFiles" :key="index" class="flex justify-between items-center py-2">
-            <span>
+      <div class="mt-4 grid grid-cols-3 gap-10">
+          <div v-for="(file, index) in selectedFiles" :key="index" class="flex flex-col justify-between items-center py-2 mx-2">
+            <div>
+              <img :src="file.imageUrl" alt="" class="w-[50vh] my-3">
+              <span class="mt-3">
                 {{ file.name }}
-                <FontAwesomeIcon @click="removeFile(index)" class="mx-3 text-red-500" icon="circle-xmark" />
-            </span>
-            <span v-if="file.uploaded" class="text-green-500">Uploaded</span>
-            <span v-if="file.uploading" class="text-blue-500">{{ file.progress }}%</span>
-        </li>
-      </ul>
-    <!-- <div v-if="loading" class="mt-4">
-        <span v-if="totalProgress !== 100">Uploading... {{ totalProgress }}%</span>
-        <span v-else>Upload Complete!</span>
-    </div> -->
+                <FontAwesomeIcon @click="removeFile(index)" v-if="!loading" class="mx-3 text-red-500" icon="circle-xmark" />
+              </span>
+              <div>
+                <span v-if="file.uploaded" class="text-green-500">Uploaded</span>
+                <span v-if="file.uploading" class="text-blue-500">{{ file.progress }}%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div v-if="isDone" class="mt-4">
+            <span class="text-green-500">Upload Complete!</span>
+        </div>
     </div>
   </template>
 
@@ -35,17 +39,22 @@
   const fileInput = ref(null);
   const selectedFiles = ref([]);
   const loading = ref(false);
+  const isDone  = ref(false);
   const totalProgress = ref(0);
 
   const handleFileChange = (event) => {
-  const newFiles = Array.from(event.target.files).map(file => ({
-    name: file.name,
-    uploaded: false,
-    uploading: false,
-    progress: 0
-  }));
-  selectedFiles.value = [...selectedFiles.value, ...newFiles];
-};
+    const newFiles = Array.from(event.target.files).map(file => {
+      const imageUrl = URL.createObjectURL(file);
+      return {
+        name: file.name,
+        uploaded: false,
+        uploading: false,
+        progress: 0,
+        imageUrl: imageUrl
+      };
+    });
+    selectedFiles.value = [...selectedFiles.value, ...newFiles];
+  };
 
   const openFileInput = () => {
     fileInput.value.click();
@@ -77,6 +86,12 @@
   }
 
   loading.value = false;
+  isDone.value = true;
+  selectedFiles.value = [];
+  
+  setTimeout(() => {
+    isDone.value = false;
+  }, 5000);
 };
 
 const removeFile = (index) => {
