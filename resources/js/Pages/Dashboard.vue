@@ -16,6 +16,12 @@ const props = defineProps(['users']);
 
 const date = ref();
 
+const sortableLists = ref([
+    { name: "Sort 1", id: 0 },
+    { name: "Sort 2", id: 1 },
+    { name: "Sort 3", id: 2 }
+])
+
 const clientSideSearch = ref({
     enabled: true,
     trigger: 'enter',
@@ -133,6 +139,25 @@ onMounted(() => {
                 <MultipleFileInput class="my-5" />
                 <h1>Single File Upload</h1>
                 <FileInput class="my-5" />
+                <h1>Sortable List</h1>
+                <Draggable
+                    v-model="sortableLists"
+                    group="people"
+                    ghost-class="ghost"
+                    @start="drag=true"
+                    @end="drag=false"
+                    item-key="id">
+                    <template #item="{element}">
+                        <div class="max-w-sm w-full lg:max-w-full lg:flex my-3">
+                            <div class="border border-gray-400 bg-white rounded p-4 flex flex-col justify-between leading-normal">
+                                <div class="mb-8">
+                                <div class="text-gray-900 font-bold text-xl mb-2">{{ element.name }}</div>
+                                <p class="text-gray-700 text-base">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </Draggable>
             </div>
         </div>
     </AuthenticatedLayout>

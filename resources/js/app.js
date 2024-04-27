@@ -14,6 +14,7 @@ import { Bar, Line, Pie, Bubble } from 'vue-chartjs'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {fas} from "@fortawesome/free-solid-svg-icons";
+import Draggable from 'vuedraggable'
 
 library.add(fas)
 
@@ -31,6 +32,7 @@ createInertiaApp({
                 components:{
                   VueGoodTable,
                   VueDatePicker,
+                  Draggable,
                   Bar,
                   Line,
                   Pie,
